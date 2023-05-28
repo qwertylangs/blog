@@ -1,0 +1,24 @@
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.name {
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.date {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgba(0, 0, 0, 0.5);
+}
