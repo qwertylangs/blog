@@ -26,13 +26,6 @@ const Registration = () => {
   const { handleSubmit, control, reset, watch, setError, clearErrors } =
     useForm<IRegFields>({
       mode: "onChange",
-      defaultValues: {
-        username: "test",
-        email: "test1@gmail.com",
-        password: "123456",
-        repeatPassword: "123456",
-        agreement: true,
-      },
     });
 
   const isLoading = useSelector(selectAuthLoading);

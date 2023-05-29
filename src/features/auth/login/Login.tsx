@@ -18,10 +18,6 @@ const Login = () => {
   const navigate = useNavigate();
   const { handleSubmit, control, reset, watch, setError } = useForm<IRegFields>({
     mode: "onChange",
-    defaultValues: {
-      email: "test1@gmail.com",
-      password: "123456",
-    },
   });
 
   const isLoading = useSelector(selectAuthLoading);
