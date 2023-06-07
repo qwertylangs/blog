@@ -1,24 +1,24 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
   interface Theme {
     status: {
-      danger: React.CSSProperties['color'];
+      danger: React.CSSProperties["color"];
     };
   }
 
   interface ThemeOptions {
     status: {
-      danger: React.CSSProperties['color'];
+      danger: React.CSSProperties["color"];
     };
   }
 
   interface Palette {
-    neutral: Palette['primary'];
+    neutral: Palette["primary"];
   }
 
   interface PaletteOptions {
-    neutral?: PaletteOptions['primary'];
+    neutral?: PaletteOptions["primary"];
   }
 
   interface PaletteColor {
@@ -32,24 +32,24 @@ declare module '@mui/material/styles' {
 
 export const theme = createTheme({
   status: {
-    danger: '#e53e3e',
+    danger: "#e53e3e",
   },
   palette: {
     primary: {
-      main: '#1890FF',
+      main: "#1890FF",
     },
     secondary: {
-      main: 'rgba(0, 0, 0, 0.85)',
-      contrastText: '#fff',
+      main: "rgba(0, 0, 0, 0.85)",
+      contrastText: "#fff",
     },
     success: {
-      main: '#52C41A',
+      main: "#52C41A",
     },
     error: {
-      main: '#F5222D',
+      main: "#F5222D",
     },
   },
   typography: {
-    fontFamily: 'Inter, sans-serif',
+    fontFamily: "Inter, sans-serif",
   },
 });

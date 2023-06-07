@@ -16,6 +16,7 @@ import NewArticlePage from "@pages/NewArticlePage";
 import "react-toastify/dist/ReactToastify.css";
 import EditArticlePage from "@pages/EditArticlePage";
 import RequireAuth from "@pages/RequireAuth";
+import RequireUser from "@pages/RequireUser";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -38,7 +39,9 @@ function App() {
             path="/articles/:slug/edit"
             element={
               <RequireAuth>
-                <EditArticlePage />
+                <RequireUser>
+                  <EditArticlePage />
+                </RequireUser>
               </RequireAuth>
             }
           />

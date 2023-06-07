@@ -7,8 +7,10 @@ export const fetchArticles = createAsyncThunk<
   { articles: IArticle[]; count: number },
   number,
   { extra: Extra; rejectValue: string }
->("@@articles/fetchArticles", async (offset: number, { extra, rejectWithValue }) => {
+>("@@articles/fetchArticles", async (page, { extra, rejectWithValue }) => {
   try {
+    const offset = (page - 1) * 5;
+
     const response: AxiosResponse<ArticlesResponce> = await extra.client.get(
       `/articles?offset=${offset}&limit=5`,
     );
@@ -30,7 +32,7 @@ export const fetchArticles = createAsyncThunk<
 export const fetchSingleArticle = createAsyncThunk<
   IArticle,
   string,
-  { extra: Extra; rejectValue: string }
+  { extra: Extra; rejectValue: Error }
 >("@@articles/fetchSingleArticle", async (slug, { extra, rejectWithValue }) => {
   try {
     const response: AxiosResponse = await extra.client.get(`/articles/${slug}`);
@@ -41,17 +43,14 @@ export const fetchSingleArticle = createAsyncThunk<
 
     return data.article as IArticle;
   } catch (error) {
-    if (error instanceof Error) {
-      return rejectWithValue(error.message);
-    }
-    return rejectWithValue("Articles fetch error");
+    return rejectWithValue(new Error("Article not found"));
   }
 });
 
 export const fetchNewArticle = createAsyncThunk<
   IArticle,
   { article: ICreateArticleData },
-  { extra: Extra; rejectValue: string }
+  { extra: Extra; rejectValue: Error }
 >("@@articles/fetchNewArticle", async (article, { extra, rejectWithValue }) => {
   try {
     const response: AxiosResponse = await extra.client.post(`/articles`, article);
@@ -59,10 +58,7 @@ export const fetchNewArticle = createAsyncThunk<
 
     return data.article as IArticle;
   } catch (error) {
-    if (error instanceof Error) {
-      return rejectWithValue(error.message);
-    }
-    return rejectWithValue("Article post error");
+    return rejectWithValue(new Error("Cannot create article"));
   }
 });
 
@@ -82,16 +78,14 @@ export const fetchDeleteArticle = createAsyncThunk<
 });
 
 export const fetchEditingArticle = createAsyncThunk<
-  undefined,
+  IArticle,
   { data: ICreateArticleData; slug: string },
-  { extra: Extra; rejectValue: string }
+  { extra: Extra; rejectValue: Error }
 >("@@articles/deleteArticle", async ({ data, slug }, { extra, rejectWithValue }) => {
   try {
-    await extra.client.put(`/articles/${slug}`, { article: data });
+    const response = await extra.client.put(`/articles/${slug}`, { article: data });
+    return response.data.article;
   } catch (error) {
-    if (error instanceof Error) {
-      return rejectWithValue(error.message);
-    }
-    return rejectWithValue("Article editing error");
+    return rejectWithValue(new Error("Can't edit article"));
   }
 });

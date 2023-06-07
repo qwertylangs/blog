@@ -3,6 +3,7 @@ import { IArticle } from "@src/types/article";
 import { fetchArticles, fetchSingleArticle } from "./articles-thunks";
 
 type ArticlesSlice = {
+  page: number;
   allArticles: {
     items: IArticle[];
     count: number;
@@ -12,6 +13,7 @@ type ArticlesSlice = {
 };
 
 const initialState: ArticlesSlice = {
+  page: 1,
   allArticles: {
     items: [],
     count: 0,
@@ -47,6 +49,9 @@ const articlesSlice = createSlice({
         article.favorited = !article.favorited;
       }
     },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -80,4 +85,4 @@ const articlesSlice = createSlice({
 });
 
 export default articlesSlice.reducer;
-export const { likeArticle, likeFullArticle } = articlesSlice.actions;
+export const { likeArticle, likeFullArticle, setPage } = articlesSlice.actions;

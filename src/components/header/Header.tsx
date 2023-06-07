@@ -11,6 +11,7 @@ import { logout } from "@features/auth/auth-slice";
 import { fetchAuthMe } from "@features/auth/auth-thunks";
 
 const Header = () => {
+  const dispatch = useAppDispatch();
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>

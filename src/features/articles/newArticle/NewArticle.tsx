@@ -15,9 +15,13 @@ const NewArticle = () => {
 
   const onSave = (data: ICreateArticleData) => {
     dispatch(fetchNewArticle({ article: data }))
-      .then(() => {
-        message.success("Article created!");
-        navigate("/");
+      .then((res) => {
+        if ("error" in res) {
+          message.error("Cannot create article");
+        } else {
+          message.success("Article created successfully");
+          navigate(`/articles/${res.payload.slug}`);
+        }
       })
       .catch(() => message.error("Error creating new article"));
   };

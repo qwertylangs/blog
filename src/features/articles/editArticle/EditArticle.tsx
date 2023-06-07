@@ -14,18 +14,22 @@ const EditArticle = () => {
   const navigate = useNavigate();
   const isLoading = useSelector(selectArticlesLoading);
 
-  const article = useSelector(selectSingleArticle);
+  const singleArticle = useSelector(selectSingleArticle);
 
   const onSave = (data: ICreateArticleData) => {
-    dispatch(fetchEditingArticle({ data, slug: slug as string }))
-      .then(() => {
+    dispatch(fetchEditingArticle({ data, slug: slug as string })).then((res) => {
+      if ("error" in res) {
+        message.error("Cannot update article");
+      } else {
         message.success("Article updated successfully");
-        navigate("/");
-      })
-      .catch(() => message.error("Something went wrong"));
+        navigate(`/articles/${res.payload.slug}`);
+      }
+    });
   };
 
-  return <ArticleForm isEditing {...article} onSave={onSave} isLoading={isLoading} />;
+  return (
+    <ArticleForm isEditing {...singleArticle} onSave={onSave} isLoading={isLoading} />
+  );
 };
 
 export default EditArticle;

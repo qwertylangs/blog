@@ -1,29 +1,33 @@
+import { useEffect, useState } from "react";
 import { Pagination } from "@mui/material";
+import { useSelector } from "react-redux";
 
 import { Article } from "@components/article/Article";
+import { Spinner } from "@components/spinner/Spinner";
 import styles from "./ArticlesList.module.scss";
-import { useSelector } from "react-redux";
-import { selectAllArticles, selectArticlesLoading } from "../articles-selectors";
-import { useEffect, useState } from "react";
+import {
+  selectAllArticles,
+  selectArticlesLoading,
+  selectPage,
+} from "../articles-selectors";
 import { useAppDispatch } from "@src/store";
 import { fetchArticles } from "../articles-thunks";
-import { Spinner } from "@components/spinner/Spinner";
 import { selectUser } from "@features/auth/auth-selectors";
+import { setPage } from "../articles-slice";
 
 const ArticlesList = () => {
-  const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
   const { items: articles, count } = useSelector(selectAllArticles);
   const isLoading = useSelector(selectArticlesLoading);
   const user = useSelector(selectUser);
+  const page = useSelector(selectPage);
 
   useEffect(() => {
-    const offset = (page - 1) * 5;
-    dispatch(fetchArticles(offset));
+    dispatch(fetchArticles(page));
   }, [page]);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
+    dispatch(setPage(value));
   };
 
   return (
@@ -45,6 +49,8 @@ const ArticlesList = () => {
         shape="rounded"
         sx={{ margin: "0 auto" }}
         onChange={handleChange}
+        defaultPage={1}
+        page={page}
       />
     </div>
   );

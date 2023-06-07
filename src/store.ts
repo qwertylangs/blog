@@ -1,8 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
-import axios from "./axiosCli";
-import { useDispatch } from "react-redux";
 import articles from "@features/articles/articles-slice";
 import auth from "@features/auth/auth-slice";
+import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+
+import axios from "./axiosCli";
 
 export const store = configureStore({
   reducer: { articles, auth },
